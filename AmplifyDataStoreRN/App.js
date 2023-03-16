@@ -98,9 +98,9 @@ const App = () => {
           <Button onPress={onDelete} title="Delete" />
           <Button onPress={getTasks} title="Query" />
           <Section title="Tasks">
-            <pre data-test="datastore-output-1">
+            <Section data-test="datastore-output-1">
               {JSON.stringify(tasks, null, 2)}
-            </pre>
+            </Section>
           </Section>
         </View>
       </ScrollView>
