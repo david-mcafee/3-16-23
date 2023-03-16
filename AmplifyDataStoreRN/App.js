@@ -21,13 +21,13 @@ import {
 
 import {
   Colors,
-  DebugInstructions,
+  // DebugInstructions,
   Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  // LearnMoreLinks,
+  // ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {DataStore} from 'aws-amplify';
-import {Task} from './src/models';
+import {Todo} from './src/models';
 
 const Section = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -56,7 +56,7 @@ const Section = ({children, title}) => {
 };
 
 const App = () => {
-  const [tasks, setTasks] = useState();
+  const [todos, setTodos] = useState();
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -64,22 +64,21 @@ const App = () => {
   };
 
   async function onCreate() {
-    const task = await DataStore.save(
-      new Task({
-        title: 'My First Task',
-        description: 'This is my first task',
+    const todo = await DataStore.save(
+      new Todo({
+        name: `Todo ${Date.now()}`,
       }),
     );
-    setTasks([task]);
+    setTodos([todo]);
   }
 
-  async function getTasks() {
-    const _tasks = await DataStore.query(Task);
-    setTasks(_tasks);
+  async function getTodos() {
+    const _todos = await DataStore.query(Todo);
+    setTodos(_todos);
   }
 
   async function onDelete() {
-    const toDelete = await DataStore.query(Task, '1234567');
+    const toDelete = await DataStore.query(Todo, '1234567');
     DataStore.delete(toDelete);
   }
 
@@ -96,10 +95,10 @@ const App = () => {
           }}>
           <Button onPress={onCreate} title="Create" />
           <Button onPress={onDelete} title="Delete" />
-          <Button onPress={getTasks} title="Query" />
-          <Section title="Tasks">
+          <Button onPress={getTodos} title="Query" />
+          <Section title="Todos">
             <Section data-test="datastore-output-1">
-              {JSON.stringify(tasks, null, 2)}
+              {JSON.stringify(todos, null, 2)}
             </Section>
           </Section>
         </View>
