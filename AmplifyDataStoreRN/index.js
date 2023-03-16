@@ -9,6 +9,8 @@ import {name as appName} from './app.json';
 import {DataStore} from 'aws-amplify';
 import {SQLiteAdapter} from '@aws-amplify/datastore-storage-adapter/SQLiteAdapter';
 import 'core-js/full/symbol/async-iterator';
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill';
 
 DataStore.configure({
   storageAdapter: SQLiteAdapter,
