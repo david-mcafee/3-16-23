@@ -22,12 +22,13 @@ import {
 import {
   Colors,
   // DebugInstructions,
-  Header,
+  // Header,
   // LearnMoreLinks,
   // ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import {DataStore} from 'aws-amplify';
+import {DataStore, Predicates} from 'aws-amplify';
 import {Todo} from './src/models';
+import 'core-js/full/symbol/async-iterator';
 
 const Section = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -72,9 +73,8 @@ const App = () => {
     setTodos([todo]);
   }
 
-  async function onDelete() {
-    const toDelete = await DataStore.query(Todo, '1234567');
-    DataStore.delete(toDelete);
+  async function deleteAll() {
+    await DataStore.delete(Todo, Predicates.ALL);
   }
 
   async function createTen() {
@@ -116,17 +116,17 @@ const App = () => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Button onPress={onCreate} title="Create" />
-          <Button onPress={onDelete} title="Delete" />
+          <Button onPress={deleteAll} title="Delete All" />
           <Button onPress={createTen} title="createTen" />
           <Button onPress={saveWithTitle} title="Save With Title" />
           <Button onPress={getTodos} title="Query" />
           <Button onPress={fuzzyDelete} title="Fuzzy Delete" />
+          <Text>{todos?.length}</Text>
           <Section title="Todos">
             <Section data-test="datastore-output-1">
               {JSON.stringify(todos, null, 2)}
