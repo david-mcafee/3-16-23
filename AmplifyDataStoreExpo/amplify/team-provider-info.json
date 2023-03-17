@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-fuzzydeleteexpo-dev-123002-authRole",
+      "UnauthRoleArn": "arn:aws:iam::055345086115:role/amplify-fuzzydeleteexpo-dev-123002-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::055345086115:role/amplify-fuzzydeleteexpo-dev-123002-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-fuzzydeleteexpo-dev-123002-deployment",
+      "UnauthRoleName": "amplify-fuzzydeleteexpo-dev-123002-unauthRole",
+      "StackName": "amplify-fuzzydeleteexpo-dev-123002",
+      "StackId": "arn:aws:cloudformation:us-east-1:055345086115:stack/amplify-fuzzydeleteexpo-dev-123002/1eaf81c0-c4fa-11ed-86a1-0eda7b9c5547",
+      "AmplifyAppId": "d2iom0zc4y5zzt"
+    }
+  }
+}

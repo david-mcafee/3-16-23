@@ -72,14 +72,42 @@ const App = () => {
     setTodos([todo]);
   }
 
-  async function getTodos() {
-    const _todos = await DataStore.query(Todo);
-    setTodos(_todos);
-  }
-
   async function onDelete() {
     const toDelete = await DataStore.query(Todo, '1234567');
     DataStore.delete(toDelete);
+  }
+
+  async function createTen() {
+    const newTodos = await Promise.all(
+      Array.from({length: 10}).map(() =>
+        DataStore.save(
+          new Todo({
+            name: `Todo ${Date.now()}`,
+          }),
+        ),
+      ),
+    );
+    setTodos(newTodos);
+  }
+
+  async function saveWithTitle() {
+    // Create a post with % in the name:
+    await DataStore.save(
+      new Todo({
+        name: 'title-%-100',
+      }),
+    );
+  }
+
+  async function fuzzyDelete() {
+    // Delete post with % in the name:
+    const deletedTodo = await DataStore.delete(Todo, c => c.name.contains('%'));
+    console.log('deletedTodo', deletedTodo);
+  }
+
+  async function getTodos() {
+    const _todos = await DataStore.query(Todo);
+    setTodos(_todos);
   }
 
   return (
@@ -95,7 +123,10 @@ const App = () => {
           }}>
           <Button onPress={onCreate} title="Create" />
           <Button onPress={onDelete} title="Delete" />
+          <Button onPress={createTen} title="createTen" />
+          <Button onPress={saveWithTitle} title="Save With Title" />
           <Button onPress={getTodos} title="Query" />
+          <Button onPress={fuzzyDelete} title="Fuzzy Delete" />
           <Section title="Todos">
             <Section data-test="datastore-output-1">
               {JSON.stringify(todos, null, 2)}
