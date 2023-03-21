@@ -90,7 +90,7 @@ const App = () => {
     setTodos(newTodos);
   }
 
-  async function saveWithTitle() {
+  async function saveContainsTitle() {
     // Create a post with % in the name:
     await DataStore.save(
       new Todo({
@@ -99,9 +99,38 @@ const App = () => {
     );
   }
 
-  async function fuzzyDelete() {
-    // Delete post with % in the name:
+  async function saveBeginsWithTitle() {
+    // Create a post with % in the name:
+    await DataStore.save(
+      new Todo({
+        name: '%title-100',
+      }),
+    );
+  }
+
+  async function containsDelete() {
     const deletedTodo = await DataStore.delete(Todo, c => c.name.contains('%'));
+    console.log('deletedTodo', deletedTodo);
+  }
+
+  async function notContainsDelete() {
+    const deletedTodo = await DataStore.delete(Todo, c =>
+      c.name.notContains('%'),
+    );
+    console.log('deletedTodo', deletedTodo);
+  }
+
+  async function beginsWithDelete() {
+    const deletedTodo = await DataStore.delete(Todo, c =>
+      c.name.beginsWith('%'),
+    );
+    console.log('deletedTodo', deletedTodo);
+  }
+
+  async function betweenDelete() {
+    const deletedTodo = await DataStore.delete(Todo, c =>
+      c.name.between('+', 'title-%-150'),
+    );
     console.log('deletedTodo', deletedTodo);
   }
 
@@ -123,9 +152,16 @@ const App = () => {
           <Button onPress={onCreate} title="Create" />
           <Button onPress={deleteAll} title="Delete All" />
           <Button onPress={createTen} title="createTen" />
-          <Button onPress={saveWithTitle} title="Save With Title" />
+          <Button onPress={saveContainsTitle} title="Save Contains Title" />
+          <Button
+            onPress={saveBeginsWithTitle}
+            title="Save Begins With Title"
+          />
           <Button onPress={getTodos} title="Query" />
-          <Button onPress={fuzzyDelete} title="Fuzzy Delete" />
+          <Button onPress={containsDelete} title="Contains Delete" />
+          <Button onPress={notContainsDelete} title="Not Contains Delete" />
+          <Button onPress={beginsWithDelete} title="Begins With Delete" />
+          <Button onPress={betweenDelete} title="Between Delete" />
           <Text>{todos?.length}</Text>
           <Section title="Todos">
             <Section data-test="datastore-output-1">
